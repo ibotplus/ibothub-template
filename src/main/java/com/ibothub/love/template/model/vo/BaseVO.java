@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * base view object used for convert frontend request pojo
@@ -24,6 +25,12 @@ public class BaseVO implements Serializable {
     @NotEmpty(groups = Update.class)
     @ApiModelProperty("ID")
     private String id;
+
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty("修改时间")
+    private LocalDateTime modifyTime;
 
     public interface Create {
     }

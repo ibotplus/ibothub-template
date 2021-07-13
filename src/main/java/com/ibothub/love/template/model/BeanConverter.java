@@ -7,6 +7,7 @@ import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import lombok.SneakyThrows;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.lang.reflect.Method;
@@ -34,10 +35,11 @@ public interface BeanConverter {
      */
     Map<String, Method> CACHED_METHOD = new ConcurrentHashMap<>(BeanConverter.class.getDeclaredMethods().length);
 
-    @Mappings({})
+
     User forward(UserReq reqVO);
 
-    @Mappings({})
+    @Mapping(source = "createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @Mapping(source = "modifyTime", target = "modifyTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     UserResp backward(User user);
 
     @SneakyThrows

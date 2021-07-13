@@ -29,8 +29,8 @@ public class PageInfoRequest implements Serializable {
     @ApiModelProperty(value = "分页参数: 起始页为1", example = "1")
     private int pageNum;
 
-    @Min(5)
-    @ApiModelProperty(value = "分页参数: 页大小", example = "5")
+    @Min(10)
+    @ApiModelProperty(value = "分页参数: 页大小", example = "10")
     private int pageSize;
 
     // TODO by Yogurt_lei on 2019-04-14 13:42 : OrderBy,Where Fields
