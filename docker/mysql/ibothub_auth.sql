@@ -1,5 +1,7 @@
 CREATE DATABASE `ibothub-auth` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
+USE `ibothub-auth`;
+
 CREATE TABLE `ibothub-auth`.`auth_user` (
 	id BIGINT auto_increment NOT NULL primary key,
 	username varchar(100) NULL COMMENT '账号',
@@ -47,6 +49,15 @@ CREATE TABLE `ibothub-auth`.`auth_role` (
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	modifier varchar(100) NULL COMMENT '修改人',
     del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `ibothub-auth`.`auth_user_role` (
+	id BIGINT auto_increment NOT NULL primary key,
+	user_id BIGINT NULL COMMENT '用户id',
+	role_id BIGINT NULL COMMENT '角色id'
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

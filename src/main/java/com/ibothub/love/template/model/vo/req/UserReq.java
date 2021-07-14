@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.List;
 
 @ApiModel("userReq")
 @Data
@@ -47,6 +48,9 @@ public class UserReq extends BaseVO {
 
     @ApiModelProperty("身份证")
     private String idCard;
+
+    @ApiModelProperty("关联的角色id")
+    private String[] roleIds;
 
     @Override
     public String toString() {

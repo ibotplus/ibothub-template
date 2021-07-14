@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 public class BaseEntity implements Serializable {
 
     @TableId(type= IdType.AUTO)
-    protected String id;
+    protected Integer id;
 
     @TableField(updateStrategy = FieldStrategy.IGNORED)
     @ApiModelProperty("创建时间")
