@@ -16,13 +16,14 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @ApiModel(value = "UserResp", description = "")
 public class UserResp extends BaseVO {
+
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime createDate;
+    protected LocalDateTime createTime;
 
     @ApiModelProperty("修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime modifyDate;
+    protected LocalDateTime modifyTime;
 
     @ApiModelProperty("用户名")
     private String username;

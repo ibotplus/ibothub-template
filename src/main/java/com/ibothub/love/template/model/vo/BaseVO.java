@@ -26,12 +26,6 @@ public class BaseVO implements Serializable {
     @ApiModelProperty("ID")
     private String id;
 
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("修改时间")
-    private LocalDateTime modifyTime;
-
     public interface Create {
     }
 

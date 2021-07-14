@@ -1,14 +1,16 @@
 package com.ibothub.love.template.model;
 
 import com.ibothub.love.template.model.entity.BaseEntity;
+import com.ibothub.love.template.model.entity.Role;
 import com.ibothub.love.template.model.entity.User;
 import com.ibothub.love.template.model.vo.BaseVO;
+import com.ibothub.love.template.model.vo.req.RoleReq;
 import com.ibothub.love.template.model.vo.req.UserReq;
+import com.ibothub.love.template.model.vo.resp.RoleResp;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import lombok.SneakyThrows;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -40,7 +42,12 @@ public interface BeanConverter {
 
     @Mapping(source = "createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @Mapping(source = "modifyTime", target = "modifyTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
-    UserResp backward(User user);
+    UserResp backward(User entity);
+
+    Role forward(RoleReq vo);
+    RoleResp backward(Role entity);
+
+
 
     @SneakyThrows
     default <V extends BaseVO, T extends BaseEntity> V backward(T t) {
