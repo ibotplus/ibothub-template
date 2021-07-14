@@ -50,18 +50,11 @@ public class UserController {
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "删除用户")
-    @DeleteMapping("{id}")
-    public ResponseEntity delete(@NotEmpty @PathVariable String id) {
-        userAdapter.deleteById(Integer.valueOf(id));
-        return ResponseEntity.ok();
-    }
-
     @ApiOperation(value = "修改用户")
     @PutMapping("")
     public ResponseEntity update(@ApiParam(value = "UserReq Create RequestBody", type = "DatasourceVO")
-                                          @Validated(UserReq.Update.class)
-                                          @RequestBody UserReq vo) {
+                                 @Validated(UserReq.Update.class)
+                                 @RequestBody UserReq vo) {
         userAdapter.saveOrUpdate(vo);
         return ResponseEntity.ok();
     }
@@ -70,6 +63,13 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserResp> getOne(@PathVariable String id) {
         return ResponseEntity.ok(userAdapter.getById(Integer.valueOf(id)));
+    }
+
+    @ApiOperation(value = "删除用户")
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@NotEmpty @PathVariable String id) {
+        userAdapter.deleteById(Integer.valueOf(id));
+        return ResponseEntity.ok();
     }
 
     @ApiOperation(value = "分页", notes = "返回查询结果")

@@ -8,6 +8,7 @@ import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import com.ibothub.love.template.service.UserService;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
  * @version 1.0
  * @date 2021/7/13 21:18
  */
-@Service
+@Component
 public class UserAdapter {
 
     @Resource
