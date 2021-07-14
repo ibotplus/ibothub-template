@@ -3,7 +3,7 @@
 
 
 >
-![Build Status](https://github.com/ibotplus/ibothub-template/actions/workflows/maven.yml/badge.svg)
+[![Build Status](https://github.com/ibotplus/ibothub-template/actions/workflows/maven.yml/badge.svg)](https://github.com/ibotplus/ibothub-template/actions)
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 ![SpringBoot](https://img.shields.io/badge/SpringBoot-2.3.12.RELEASE-green.svg)
 ![Java](https://img.shields.io/badge/Java-v1.8.0__162-blue.svg)
