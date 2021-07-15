@@ -15,6 +15,7 @@ import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 @Validated
 @RestController
 @RequestMapping("/api/auth/user")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     @Resource

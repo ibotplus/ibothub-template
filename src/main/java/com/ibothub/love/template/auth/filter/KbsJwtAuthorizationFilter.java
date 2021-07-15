@@ -1,15 +1,18 @@
 package com.ibothub.love.template.auth.filter;
 
+import com.google.common.collect.Lists;
 import com.ibothub.love.template.auth.AuthUtil;
 import com.ibothub.love.template.config.JwtConfig;
 import com.ibothub.love.template.exception.ResultCode;
 import com.ibothub.love.template.model.vo.ResponseEntity;
+import com.ibothub.love.template.service.RoleService;
 import com.ibothub.love.template.util.JwtUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -40,6 +43,9 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Resource
+    private RoleService roleService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -81,8 +87,7 @@ public class KbsJwtAuthorizationFilter extends OncePerRequestFilter {
             }
 
             // 4. 构造令牌 成功登录
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId,
-                    null, new ArrayList<>());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null, roleService.getGrantedAuthorities(userId));
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }

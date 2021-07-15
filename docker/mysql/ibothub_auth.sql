@@ -93,6 +93,7 @@ COLLATE=utf8mb4_general_ci;
 
 
 BEGIN;
+REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('admin', '系统管理员', '21232f297a57a5a743894a0e4a801fc3', '9007', 0, 'admin@ibothub.com', '18526535296', '1992-10-01 00:00:00', '421181199210019007');
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('zhangsan', '张三', 'e10adc3949ba59abbe56e057f20f883e', '9527', 0, 'zhangsan@ibothub.com', '18526535896', '1992-10-01 00:00:00', '421181199210015698');
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('lisi', '李四', 'e10adc3949ba59abbe56e057f20f883e', '9528', 0, 'lisi@ibothub.com', '18526535896', '1992-10-01 00:00:00', '421181199211015698');
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('wangwu', '王五', 'e10adc3949ba59abbe56e057f20f883e', '9529', 1, 'wangwu@ibothub.com', '18526535896', '1992-10-01 00:00:00', '422181199210015698');
@@ -104,5 +105,7 @@ REPLACE INTO `auth_role`(`name`, `key_`) VALUES ('开发者', 'ROLE_DEVELOPER');
 REPLACE INTO `auth_role`(`name`, `key_`) VALUES ('查阅者', 'ROLE_REPORTER');
 REPLACE INTO `auth_role`(`name`, `key_`) VALUES ('匿名者', 'ROLE_ANONYMOUS');
 REPLACE INTO `auth_role`(`name`, `key_`) VALUES ('普通用户', 'ROLE_USER');
+
+REPLACE INTO `auth_user_role`(`user_id`, `role_id`) VALUES ((select id from auth_user where username='admin'), (select id from auth_role where key_='ROLE_ADMIN'));
 
 COMMIT;
