@@ -1,14 +1,13 @@
 package com.ibothub.love.template.model;
 
-import com.ibothub.love.template.model.entity.BaseEntity;
-import com.ibothub.love.template.model.entity.Dept;
-import com.ibothub.love.template.model.entity.Role;
-import com.ibothub.love.template.model.entity.User;
+import com.ibothub.love.template.model.entity.*;
 import com.ibothub.love.template.model.vo.BaseVO;
 import com.ibothub.love.template.model.vo.req.DeptReq;
+import com.ibothub.love.template.model.vo.req.PermissionReq;
 import com.ibothub.love.template.model.vo.req.RoleReq;
 import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.DeptResp;
+import com.ibothub.love.template.model.vo.resp.PermissionResp;
 import com.ibothub.love.template.model.vo.resp.RoleResp;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import lombok.SneakyThrows;
@@ -51,6 +50,8 @@ public interface BeanConverter {
     RoleResp backward(Role entity);
     Dept forward(DeptReq vo);
     DeptResp backward(Dept entity);
+    Permission forward(PermissionReq vo);
+    PermissionResp backward(Permission entity);
 
 
 
