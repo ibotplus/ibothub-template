@@ -6,6 +6,9 @@ import com.ibothub.love.template.model.entity.Permission;
 import com.ibothub.love.template.service.PermissionService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
  * @version v1.0
@@ -13,4 +16,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
+
+    @Resource
+    PermissionMapper permissionMapper;
+
+    @Override
+    public List<Permission> findByUsername(String ofUid) {
+        return permissionMapper.findByUsername(ofUid);
+    }
+
 }

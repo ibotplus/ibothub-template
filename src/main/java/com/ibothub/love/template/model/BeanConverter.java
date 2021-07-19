@@ -50,7 +50,10 @@ public interface BeanConverter {
     RoleResp backward(Role entity);
     Dept forward(DeptReq vo);
     DeptResp backward(Dept entity);
+
+    @Mapping(source = "path", target = "uri")
     Permission forward(PermissionReq vo);
+    @Mapping(source = "uri", target = "path")
     PermissionResp backward(Permission entity);
 
 

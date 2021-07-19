@@ -43,6 +43,16 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_general_ci;
 
+drop table if exists `auth_dept_user`;
+CREATE TABLE `ibothub-auth`.`auth_dept_user` (
+	id BIGINT auto_increment NOT NULL primary key,
+	user_id BIGINT NULL COMMENT '用户id',
+	dept_id BIGINT NULL COMMENT '部门id'
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
 drop table if exists `auth_role`;
 CREATE TABLE `ibothub-auth`.`auth_role` (
 	id BIGINT auto_increment NOT NULL primary key,
@@ -72,7 +82,8 @@ COLLATE=utf8mb4_general_ci;
 drop table if exists `auth_permission`;
 CREATE TABLE `ibothub-auth`.`auth_permission` (
 	id BIGINT auto_increment NOT NULL primary key,
-	name varchar(200) NULL COMMENT '名称',
+	title varchar(200) NULL COMMENT '中文名称',
+	name varchar(200) NULL COMMENT '英文名称',
 	key_ varchar(200) NULL COMMENT '标识',
 	uri_ varchar(200) NULL COMMENT '路径',
   icon_font varchar(200) NULL COMMENT '图标',
@@ -81,6 +92,9 @@ CREATE TABLE `ibothub-auth`.`auth_permission` (
 	remark varchar(1000) NULL COMMENT '备注',
 	summary varchar(200) NULL COMMENT '描述',
 	type_ varchar(2000) NULL COMMENT '一级菜单 CATEGORY / 二级或三级..菜单 MODULE / 按钮 BUTTON',
+	redirect_ varchar(1000) NULL COMMENT '跳转路径',
+	component varchar(1000) NULL COMMENT '组件',
+	is_menu INT DEFAULT 0 COMMENT '是否为菜单，1-是；0-否',
 	create_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
@@ -121,13 +135,20 @@ REPLACE INTO `auth_dept`(`id`, `name`, `key_`) VALUES (99999, '正欣集团', 'R
 
 REPLACE INTO `auth_dept_user`(`user_id`, `dept_id`) VALUES ((select id from auth_user where username='admin'), (select id from auth_dept where key_='ROOT_COMPANY'));
 
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (1, '首页', 'dashboard', 'dashboard', '', null, 0);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (9, '系统管理', 'system', 'system', '', null, 1);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (11, '用户管理', 'user_mgr', 'sys/user', '', 9, 11);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (12, '部门管理', 'dept_mgr', 'sys/dept', '', 9, 12);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (13, '角色管理', 'role_mgr', 'sys/role', '', 9, 13);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (14, '权限管理', 'perm_mgr', 'sys/perm', '', 9, 14);
-REPLACE INTO `auth_permission`(`id`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`) VALUES (15, '系统设置', 'sys_conf', 'sys/conf', '', 9, 15);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (1, '首页', 'Dashboard', 'dashboard', 'dashboard', 'dashboard', null, 0, 1, null, null);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (9, '系统管理', 'System', 'system', 'system', 'el-icon-s-help', null, 1, 1, 'system/user', 'Layout');
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (11, '用户管理', 'UserMgr', 'user_mgr', 'system/user', 'el-icon-user', 9, 11, 1, null, null);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (12, '部门管理', 'DeptMgr', 'dept_mgr', 'system/dept', 'el-icon-office-building', 9, 12, 1, null, null);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (13, '角色管理', 'RoleMgr', 'role_mgr', 'system/role', 'l-icon-medal-1', 9, 13, 1, null, null);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (14, '权限管理', 'PermMgr', 'perm_mgr', 'system/perm', 'el-icon-lock', 9, 14, 1, null, null);
+REPLACE INTO `auth_permission`(`id`, `title`, `name`, `key_`, `uri_`, `icon_font`, `parent_id`, `order_`, `is_menu`, `redirect_`, `component`) VALUES (15, '系统设置', 'SysConf', 'sys_conf', 'system/conf', 'el-icon-setting', 9, 15, 1, null, null);
 
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 1);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 9);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 11);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 12);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 13);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 14);
+REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 15);
 
 COMMIT;

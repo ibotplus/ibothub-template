@@ -19,7 +19,15 @@ import lombok.experimental.Accessors;
 @TableName(value = "auth_permission")
 public class Permission extends BaseEntity {
 
+    /**
+     * 权限英文标识，用于vue中的name
+     */
     private String name;
+
+    /**
+     * 权限的中文名，用于vue中的title
+     */
+    private String title;
 
     /**
      * 权限标识
@@ -36,7 +44,7 @@ public class Permission extends BaseEntity {
     private Integer order;
 
     /**
-     * 访问路径
+     * 访问路径，如 system/user
      */
     @TableField(value = "uri_")
     private String uri;
@@ -44,6 +52,20 @@ public class Permission extends BaseEntity {
     private String iconFont;
 
     private String summary;
+
+
+    /**
+     * 访问路径，跳转路径
+     */
+    @TableField(value = "redirect_")
+    private String redirect;
+
+    /**
+     * 前端组件 () => import('@/views/dashboard/index') or Layout
+     */
+    private String component;
+
+    private Integer isMenu;
 
     /**
      * 一级菜单 CATEGORY / 二级或三级..菜单 MODULE / 按钮 BUTTON

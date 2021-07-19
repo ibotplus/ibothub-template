@@ -1,15 +1,19 @@
 package com.ibothub.love.template.adapter;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.ibothub.love.template.model.BeanConverter;
+import com.ibothub.love.template.model.entity.Role;
 import com.ibothub.love.template.model.entity.User;
 import com.ibothub.love.template.model.entity.UserRole;
 import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.UserResp;
+import com.ibothub.love.template.service.RoleService;
 import com.ibothub.love.template.service.UserRoleService;
 import com.ibothub.love.template.service.UserService;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
@@ -35,6 +39,10 @@ public class UserAdapter {
 
     @Resource
     private UserRoleService userRoleService;
+
+    @Resource
+    private RoleService roleService;
+
 
     @Resource
     BeanConverter beanConverter;
@@ -75,5 +83,15 @@ public class UserAdapter {
         IPage<User> pageParam = new Page<>(pageInfoRequest.getPageNum(), pageInfoRequest.getPageSize());
         IPage<User> pageResult = userService.page(pageParam);
         return pageResult.convert(beanConverter::backward);
+    }
+
+    public UserResp getByUsername(String username) {
+        Wrapper<User> query = Wrappers.<User>lambdaQuery()
+                .eq(User::getUsername, username);
+        User user = userService.getOne(query);
+        List<Role> roleList = roleService.findByUsername(username);
+        user.setRoleList(roleList);
+        return beanConverter.backward(user);
+
     }
 }

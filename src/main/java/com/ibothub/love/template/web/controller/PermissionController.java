@@ -5,6 +5,7 @@ import com.ibothub.love.template.adapter.PermissionAdapter;
 import com.ibothub.love.template.model.vo.ResponseEntity;
 import com.ibothub.love.template.model.vo.req.PermissionReq;
 import com.ibothub.love.template.model.vo.resp.PermissionResp;
+import com.ibothub.love.template.util.AppContext;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
@@ -68,5 +70,11 @@ public class PermissionController {
         return ResponseEntity.ok(permissionAdapter.queryByPage(pageInfoRequest));
     }
 
+
+    @ApiOperation(value = "返回当前用户的权限路径")
+    @PostMapping("/routes")
+    public ResponseEntity<List<PermissionResp>> routes() {
+        return ResponseEntity.ok(permissionAdapter.getByUsername(AppContext.ofUid()));
+    }
 
 }

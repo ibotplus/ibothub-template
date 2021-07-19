@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
  * @version v1.0
@@ -18,6 +20,7 @@ import lombok.experimental.Accessors;
 public class PermissionResp extends BaseVO {
 
     private String name;
+    private String title;
 
     /**
      * 权限标识
@@ -34,15 +37,23 @@ public class PermissionResp extends BaseVO {
     /**
      * 访问路径
      */
-    private String uri;
+    private String path;
 
     private String iconFont;
 
     private String summary;
 
+    private String redirect;
+
+    private String component;
+
+    private Integer isMenu;
+
     /**
      * 一级菜单 CATEGORY / 二级或三级..菜单 MODULE / 按钮 BUTTON
      */
     private String type;
+
+    private List<PermissionResp> children;
 
 }

@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -48,4 +49,6 @@ public class UserResp extends BaseVO {
 
     @ApiModelProperty("身份证")
     private String idCard;
+
+    private List<RoleResp> roleList;
 }

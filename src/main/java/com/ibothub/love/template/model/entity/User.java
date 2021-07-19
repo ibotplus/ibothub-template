@@ -8,8 +8,10 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * <p>
@@ -44,6 +46,9 @@ public class User extends BaseEntity {
     private LocalDate birthday;
 
     private String idCard;
+
+    @TableField(exist = false)
+    private List<Role> roleList;
 
     @Override
     public String toString() {
