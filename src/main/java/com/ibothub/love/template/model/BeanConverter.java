@@ -87,10 +87,12 @@ public interface BeanConverter {
     }
 
     default <V extends BaseVO, T extends BaseEntity> List<T> forward(List<V> voList) {
+        if (voList==null || voList.size()==0) return null;
         return voList.stream().map(v -> (T) this.forward(v)).collect(Collectors.toList());
     }
 
     default <V extends BaseVO, T extends BaseEntity> List<V> backward(List<T> entityList) {
+        if (entityList==null || entityList.size()==0) return null;
         return entityList.stream().map(t -> (V) this.backward(t)).collect(Collectors.toList());
     }
 
