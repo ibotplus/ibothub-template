@@ -1,13 +1,18 @@
 package com.ibothub.love.template.model;
 
-import com.ibothub.love.template.model.entity.BaseEntity;
-import com.ibothub.love.template.model.entity.User;
+import com.ibothub.love.template.model.entity.*;
 import com.ibothub.love.template.model.vo.BaseVO;
+import com.ibothub.love.template.model.vo.req.DeptReq;
+import com.ibothub.love.template.model.vo.req.PermissionReq;
+import com.ibothub.love.template.model.vo.req.RoleReq;
 import com.ibothub.love.template.model.vo.req.UserReq;
+import com.ibothub.love.template.model.vo.resp.DeptResp;
+import com.ibothub.love.template.model.vo.resp.PermissionResp;
+import com.ibothub.love.template.model.vo.resp.RoleResp;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import lombok.SneakyThrows;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
+import org.mapstruct.Mapping;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -34,11 +39,24 @@ public interface BeanConverter {
      */
     Map<String, Method> CACHED_METHOD = new ConcurrentHashMap<>(BeanConverter.class.getDeclaredMethods().length);
 
-    @Mappings({})
+
     User forward(UserReq reqVO);
 
-    @Mappings({})
-    UserResp backward(User user);
+    @Mapping(source = "createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @Mapping(source = "modifyTime", target = "modifyTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    UserResp backward(User entity);
+
+    Role forward(RoleReq vo);
+    RoleResp backward(Role entity);
+    Dept forward(DeptReq vo);
+    DeptResp backward(Dept entity);
+
+    @Mapping(source = "path", target = "uri")
+    Permission forward(PermissionReq vo);
+    @Mapping(source = "uri", target = "path")
+    PermissionResp backward(Permission entity);
+
+
 
     @SneakyThrows
     default <V extends BaseVO, T extends BaseEntity> V backward(T t) {
@@ -69,10 +87,12 @@ public interface BeanConverter {
     }
 
     default <V extends BaseVO, T extends BaseEntity> List<T> forward(List<V> voList) {
+        if (voList==null || voList.size()==0) return null;
         return voList.stream().map(v -> (T) this.forward(v)).collect(Collectors.toList());
     }
 
     default <V extends BaseVO, T extends BaseEntity> List<V> backward(List<T> entityList) {
+        if (entityList==null || entityList.size()==0) return null;
         return entityList.stream().map(t -> (V) this.backward(t)).collect(Collectors.toList());
     }
 

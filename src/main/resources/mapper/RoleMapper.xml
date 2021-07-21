@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibothub.love.template.dao.RoleMapper">
+
+    <select id="findByUsername" parameterType="java.lang.String" resultType="com.ibothub.love.template.model.entity.Role">
+        select ar.* from auth_role ar
+        left join auth_user_role aur on ar.id=aur.role_id
+        left join auth_user au on au.id=aur.user_id
+        where au.username=#{username}
+    </select>
+
+    <select id="findByUserId" parameterType="java.lang.Integer" resultType="com.ibothub.love.template.model.entity.Role">
+        select ar.* from auth_role ar
+        left join auth_user_role aur on ar.id=aur.role_id
+        left join auth_user au on au.id=aur.user_id
+        where au.id=#{userId}
+    </select>
+
+</mapper>

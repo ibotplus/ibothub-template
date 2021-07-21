@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibothub.love.template.dao.PermissionMapper">
+
+    <select id="findByUsername" parameterType="java.lang.String" resultType="com.ibothub.love.template.model.entity.Permission">
+        select ap.* from auth_permission ap
+        left join auth_role_permission arp on ap.id=arp.permission_id
+        left join auth_role ar on ar.id=arp.role_id
+        left join auth_user_role aur on aur.role_id=ar.id
+        left join auth_user au on aur.user_id=au.id
+        where au.username=#{username}
+        order by ap.order_
+    </select>
+
+
+</mapper>

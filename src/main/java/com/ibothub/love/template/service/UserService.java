@@ -2,10 +2,7 @@ package com.ibothub.love.template.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ibothub.love.template.model.entity.User;
-import com.ibothub.love.template.model.vo.req.UserReq;
-import com.ibothub.love.template.model.vo.resp.UserResp;
-import com.ibothub.love.template.util.pageable.PageInfo;
-import com.ibothub.love.template.util.pageable.PageInfoRequest;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
@@ -17,4 +14,5 @@ import com.ibothub.love.template.util.pageable.PageInfoRequest;
  */
 public interface UserService extends IService<User> {
 
+    UserDetails findByUsername(String username);
 }
