@@ -20,7 +20,7 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 public class RoleReq extends BaseVO {
 
-    @NotEmpty
+    @NotEmpty(groups={Create.class, Update.class})
     @ApiModelProperty("角色名称")
     private String name;
 
