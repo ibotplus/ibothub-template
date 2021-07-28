@@ -49,6 +49,8 @@ public class User extends BaseEntity {
 
     private transient List<Role> roleList;
 
+    private String remark;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

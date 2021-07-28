@@ -50,7 +50,10 @@ public class UserReq extends BaseVO {
     private String idCard;
 
     @ApiModelProperty("关联的角色id")
-    private String[] roleIds;
+    private String[] roleList;
+
+    @ApiModelProperty("备注")
+    private String remark;
 
     @Override
     public String toString() {

@@ -14,6 +14,7 @@ CREATE TABLE `ibothub-auth`.`auth_user` (
 	phone varchar(100) NULL COMMENT '电话号码',
 	birthday DATETIME NULL COMMENT '生日',
 	id_card varchar(18) NULL COMMENT '身份证',
+	remark varchar(1000) NULL COMMENT '备注',
 	create_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',

@@ -47,4 +47,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return authorityList;
     }
 
+    @Override
+    public List<Role> findByUserId(Integer userId) {
+        return roleMapper.findByUserId(userId);
+    }
+
 }

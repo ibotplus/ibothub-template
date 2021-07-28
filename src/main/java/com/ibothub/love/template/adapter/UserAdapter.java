@@ -1,10 +1,8 @@
 package com.ibothub.love.template.adapter;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.ibothub.love.template.model.BeanConverter;
@@ -19,10 +17,8 @@ import com.ibothub.love.template.service.UserService;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,12 +47,12 @@ public class UserAdapter {
         User user = beanConverter.forward(vo);
         userService.saveOrUpdate(user);
 
-        if (ArrayUtils.isNotEmpty(vo.getRoleIds())) {
+        if (ArrayUtils.isNotEmpty(vo.getRoleList())) {
             // 删除该用户关联的角色
             userRoleService.remove(Wrappers.lambdaQuery(UserRole.class).eq(UserRole::getUserId, user.getId()));
             // 添加关联关系
             List<UserRole> userRoleList = Lists.newArrayList();
-            Arrays.stream(vo.getRoleIds())
+            Arrays.stream(vo.getRoleList())
                     .forEach(roleId ->
                         userRoleList.add(
                                 UserRole.builder()
@@ -76,7 +72,10 @@ public class UserAdapter {
     }
 
     public UserResp getById(Integer id){
-        return beanConverter.backward(userService.getById(id));
+        List<Role> roleList = roleService.findByUserId(id);
+        UserResp userResp = beanConverter.backward(userService.getById(id));
+        userResp.setRoleList(beanConverter.backward(roleList));
+        return userResp;
     }
 
     public IPage<UserResp> queryByPage(PageInfoRequest pageInfoRequest){
