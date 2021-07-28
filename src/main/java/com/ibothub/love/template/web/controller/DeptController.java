@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
@@ -67,5 +68,12 @@ public class DeptController {
     public ResponseEntity<IPage<DeptResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
                                                        @Valid @RequestBody PageInfoRequest pageInfoRequest) {
         return ResponseEntity.ok(deptAdapter.queryByPage(pageInfoRequest));
+    }
+
+    @ApiOperation(value = "列表", notes = "返回查询结果")
+    @PostMapping("/queryList")
+    public ResponseEntity<List<DeptResp>> queryList(@ApiParam(value = "Request", type = "query list")
+                                                    @Valid @RequestBody DeptReq vo) {
+        return ResponseEntity.ok(deptAdapter.queryList(vo));
     }
 }

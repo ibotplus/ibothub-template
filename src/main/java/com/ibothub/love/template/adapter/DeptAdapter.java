@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
@@ -48,5 +49,18 @@ public class DeptAdapter {
         IPage<Dept> pageParam = new Page<>(pageInfoRequest.getPageNum(), pageInfoRequest.getPageSize());
         IPage<Dept> pageResult = deptService.page(pageParam);
         return pageResult.convert(beanConverter::backward);
+    }
+
+    public List<DeptResp> queryList(DeptReq vo) {
+        if (StringUtils.isNotBlank(vo.getName())){
+            return beanConverter.backward(deptService.lambdaQuery()
+                    .like(Dept::getName, vo.getName())
+                    .select(Dept::getName, Dept::getId, Dept::getParentId)
+                    .list());
+        }else{
+            return beanConverter.backward(deptService.lambdaQuery()
+                    .select(Dept::getName, Dept::getId, Dept::getParentId)
+                    .list());
+        }
     }
 }
