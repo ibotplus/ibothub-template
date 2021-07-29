@@ -33,6 +33,8 @@ public class DeptAdapter {
         if (StringUtils.isNotBlank(dept.getParentId())) {
             Dept parentDept = deptService.getById(dept.getParentId());
             dept.setPath(parentDept.getPath() + "." + parentDept.getId());
+        }else{
+            dept.setParentId(null);
         }
         deptService.saveOrUpdate(dept);
     }

@@ -4,10 +4,10 @@ package com.ibothub.love.template.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibothub.love.template.adapter.UserAdapter;
 import com.ibothub.love.template.model.vo.ResponseEntity;
+import com.ibothub.love.template.model.vo.req.UserCondition;
 import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import com.ibothub.love.template.util.AppContext;
-import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -74,7 +74,7 @@ public class UserController {
     @ApiOperation(value = "分页", notes = "返回查询结果")
     @PostMapping("/queryByPage")
     public ResponseEntity<IPage<UserResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
-                                             @Valid @RequestBody PageInfoRequest pageInfoRequest) {
+                                             @Valid @RequestBody UserCondition pageInfoRequest) {
         return ResponseEntity.ok(userAdapter.queryByPage(pageInfoRequest));
     }
 

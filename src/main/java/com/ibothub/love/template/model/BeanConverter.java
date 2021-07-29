@@ -40,8 +40,11 @@ public interface BeanConverter {
     Map<String, Method> CACHED_METHOD = new ConcurrentHashMap<>(BeanConverter.class.getDeclaredMethods().length);
 
 
+    @Mapping(target = "roleList", ignore = true)
     User forward(UserReq reqVO);
 
+    @Mapping(target = "roleList", ignore = true)
+    @Mapping(target = "deptList", ignore = true)
     @Mapping(source = "createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @Mapping(source = "modifyTime", target = "modifyTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     UserResp backward(User entity);

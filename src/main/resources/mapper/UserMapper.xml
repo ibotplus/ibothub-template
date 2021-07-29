@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibothub.love.template.dao.UserMapper">
+
+    <select id="selectPage" parameterType="com.ibothub.love.template.model.vo.req.UserCondition" resultType="com.ibothub.love.template.model.entity.User">
+        select au.* from auth_user au
+        left join auth_dept_user adu on au.id=adu.user_id
+        where 1=1
+        <if test="userCondition.deptId!=null">
+            and adu.dept_id=#{userCondition.deptId}
+        </if>
+        order by au.create_time desc
+    </select>
+</mapper>

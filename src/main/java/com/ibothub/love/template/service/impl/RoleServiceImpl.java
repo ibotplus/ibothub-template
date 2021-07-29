@@ -23,17 +23,14 @@ import java.util.stream.Collectors;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    @Resource
-    RoleMapper roleMapper;
-
     @Override
     public List<Role> findByUsername(String username) {
-        return roleMapper.findByUsername(username);
+        return getBaseMapper().findByUsername(username);
     }
 
     @Override
     public List<GrantedAuthority> getGrantedAuthorities(String username) {
-        List<Role> roleList = roleMapper.findByUsername(username);
+        List<Role> roleList = getBaseMapper().findByUsername(username);
         List<String> authList = Lists.newArrayList();
         if (Objects.nonNull(roleList) && !roleList.isEmpty()){
             authList = roleList.stream()
@@ -49,7 +46,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<Role> findByUserId(Integer userId) {
-        return roleMapper.findByUserId(userId);
+        return getBaseMapper().findByUserId(userId);
     }
 
 }

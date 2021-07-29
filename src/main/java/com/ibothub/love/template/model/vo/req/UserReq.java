@@ -55,6 +55,9 @@ public class UserReq extends BaseVO {
     @ApiModelProperty("备注")
     private String remark;
 
+    @ApiModelProperty("所属部门id")
+    private String[] deptList;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);

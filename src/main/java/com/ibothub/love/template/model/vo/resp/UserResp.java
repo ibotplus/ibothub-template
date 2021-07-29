@@ -54,4 +54,6 @@ public class UserResp extends BaseVO {
     private String remark;
 
     private List<RoleResp> roleList;
+
+    private List<DeptResp> deptList;
 }

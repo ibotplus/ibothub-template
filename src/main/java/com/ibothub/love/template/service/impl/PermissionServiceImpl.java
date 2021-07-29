@@ -17,12 +17,9 @@ import java.util.List;
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
-    @Resource
-    PermissionMapper permissionMapper;
-
     @Override
     public List<Permission> findByUsername(String ofUid) {
-        return permissionMapper.findByUsername(ofUid);
+        return getBaseMapper().findByUsername(ofUid);
     }
 
 }
