@@ -120,4 +120,8 @@ public class UserAdapter {
         user.setRoleList(roleList);
         return beanConverter.backward(user);
     }
+
+    public List<UserResp> queryList(UserReq userReq) {
+        return beanConverter.backward(userService.queryList(userReq));
+    }
 }

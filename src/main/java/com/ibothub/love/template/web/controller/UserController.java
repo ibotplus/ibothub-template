@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * <p>
@@ -82,6 +83,14 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<UserResp> currentUser() {
         return ResponseEntity.ok(userAdapter.getByUsername(AppContext.ofUid()));
+    }
+
+    @Deprecated
+    @ApiOperation(value = "根据条件查询用户", notes = "返回查询结果")
+    @PostMapping("/queryList")
+    public ResponseEntity<List<UserResp>> queryList(@ApiParam(value = "Page Request", type = "PageRequest")
+                                                        @RequestBody UserReq userReq) {
+        return ResponseEntity.ok(userAdapter.queryList(userReq));
     }
 
 }

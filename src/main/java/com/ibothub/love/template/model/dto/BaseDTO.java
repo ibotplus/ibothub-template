@@ -17,9 +17,7 @@ import java.io.Serializable;
 @Setter
 public class BaseDTO implements Serializable {
 
-    private String id;
-
-    private String value;
+    private Integer id;
 
     @Override
     public String toString() {

@@ -2,6 +2,7 @@ package com.ibothub.love.template.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.ibothub.love.template.model.entity.User;
 import com.ibothub.love.template.model.vo.req.UserCondition;
 import org.junit.Test;
@@ -30,5 +31,11 @@ public class UserMapperTests {
         userCondition.setDeptId(99999);
         IPage<User> userPage = userMapper.selectPage(pageParam, userCondition);
         System.out.println(userPage);
+    }
+
+    @Test
+    public void testSelectByRoleIds(){
+        userMapper.selectByRoleIds(Lists.newArrayList(99999, 100003)).stream()
+        .forEach(System.out::println);
     }
 }
