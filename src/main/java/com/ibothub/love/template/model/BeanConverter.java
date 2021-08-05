@@ -1,5 +1,7 @@
 package com.ibothub.love.template.model;
 
+import com.ibothub.love.template.model.dto.RolePermDTO;
+import com.ibothub.love.template.model.dto.UserRoleDTO;
 import com.ibothub.love.template.model.entity.*;
 import com.ibothub.love.template.model.vo.BaseVO;
 import com.ibothub.love.template.model.vo.req.DeptReq;
@@ -40,11 +42,22 @@ public interface BeanConverter {
     Map<String, Method> CACHED_METHOD = new ConcurrentHashMap<>(BeanConverter.class.getDeclaredMethods().length);
 
 
+    @Mapping(target = "roleList", ignore = true)
     User forward(UserReq reqVO);
 
+    @Mapping(target = "roleList", ignore = true)
+    @Mapping(target = "deptList", ignore = true)
     @Mapping(source = "createTime", target = "createTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @Mapping(source = "modifyTime", target = "modifyTime", dateFormat = "yyyy-MM-dd HH:mm:ss")
     UserResp backward(User entity);
+
+    @Mapping(target = "roleList", ignore = true)
+    @Mapping(target = "deptList", ignore = true)
+    UserResp backward(UserRoleDTO dto);
+
+    List<UserResp> backwardUserDTO(List<UserRoleDTO> dto);
+    List<PermissionResp> backwardPermDTO(List<RolePermDTO> rolePermList);
+
 
     Role forward(RoleReq vo);
     RoleResp backward(Role entity);
@@ -95,5 +108,4 @@ public interface BeanConverter {
         if (entityList==null || entityList.size()==0) return null;
         return entityList.stream().map(t -> (V) this.backward(t)).collect(Collectors.toList());
     }
-
 }

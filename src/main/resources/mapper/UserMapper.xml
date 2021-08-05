@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibothub.love.template.dao.UserMapper">
+
+    <select id="selectPage" parameterType="com.ibothub.love.template.model.vo.req.UserCondition" resultType="com.ibothub.love.template.model.entity.User">
+        select au.* from auth_user au
+        left join auth_dept_user adu on au.id=adu.user_id
+        where 1=1
+        <if test="userCondition.deptId!=null">
+            and adu.dept_id=#{userCondition.deptId}
+        </if>
+        order by au.create_time desc
+    </select>
+
+    <select id="queryList" parameterType="com.ibothub.love.template.model.vo.req.UserReq" resultType="com.ibothub.love.template.model.entity.User">
+        select au.* from auth_user au
+        left join auth_user_role aur on au.id=aur.user_id
+        left join auth_role ar on ar.id=aur.role_id
+        where 1=1
+        <if test="userReq.roleList!=null and userReq.roleList.length>0">
+            and ar.id in
+            <foreach collection="userReq.roleList" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        order by au.username_cn desc
+    </select>
+
+    <select id="selectByRoleIds" resultType="com.ibothub.love.template.model.dto.UserRoleDTO">
+        select aur.role_id, au.* from auth_user au
+        inner join auth_user_role aur on au.id=aur.user_id
+        where 1=1
+        <if test="roleIdList!=null and roleIdList.size>0">
+            and aur.role_id in
+            <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        order by aur.role_id
+    </select>
+</mapper>

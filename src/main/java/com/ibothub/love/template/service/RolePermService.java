@@ -1,7 +1,9 @@
 package com.ibothub.love.template.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ibothub.love.template.model.entity.Dept;
+import com.ibothub.love.template.model.entity.Role;
+import com.ibothub.love.template.model.entity.RolePerm;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
@@ -10,7 +12,6 @@ import java.util.List;
  * @version v1.0
  * @date 2021/7/14 16:32
  */
-public interface DeptService extends IService<Dept> {
+public interface RolePermService extends IService<RolePerm> {
 
-    List<Dept> findByUserId(Integer userId);
 }

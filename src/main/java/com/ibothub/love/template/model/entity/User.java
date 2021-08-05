@@ -47,8 +47,9 @@ public class User extends BaseEntity {
 
     private String idCard;
 
-    @TableField(exist = false)
-    private List<Role> roleList;
+    private transient List<Role> roleList;
+
+    private String remark;
 
     @Override
     public String toString() {

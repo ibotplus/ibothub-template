@@ -18,4 +18,11 @@
         where au.id=#{userId}
     </select>
 
+    <select id="selectPage" resultType="com.ibothub.love.template.model.entity.Role">
+        select ar.*, group_concat(au.username_cn) from auth_role ar
+        left join auth_user_role aur on ar.id=aur.role_id
+        left join auth_user au on au.id=aur.user_id
+        GROUP BY ar.id, ar.name
+    </select>
+
 </mapper>

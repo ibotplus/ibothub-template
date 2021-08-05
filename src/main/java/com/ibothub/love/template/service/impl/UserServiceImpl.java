@@ -1,12 +1,16 @@
 package com.ibothub.love.template.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.ibothub.love.template.dao.UserMapper;
+import com.ibothub.love.template.model.dto.UserRoleDTO;
 import com.ibothub.love.template.model.entity.Role;
 import com.ibothub.love.template.model.entity.User;
+import com.ibothub.love.template.model.vo.req.UserCondition;
+import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.service.RoleService;
 import com.ibothub.love.template.service.UserService;
 import org.springframework.cache.annotation.CacheConfig;
@@ -51,5 +55,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .password(user.getPassword())
                 .authorities(roleService.getGrantedAuthorities(username))
                 .build();
+    }
+
+    @Override
+    public IPage<User> page(IPage<User> page, UserCondition userCondition) {
+        return getBaseMapper().selectPage(page, userCondition);
+    }
+
+    @Override
+    public List<User> queryList(UserReq userReq) {
+        return getBaseMapper().queryList(userReq);
+    }
+
+    @Override
+    public List<UserRoleDTO> selectByRoleIds(List<Integer> roleIdList) {
+        return getBaseMapper().selectByRoleIds(roleIdList);
     }
 }

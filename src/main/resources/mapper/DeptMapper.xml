@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ibothub.love.template.dao.DeptMapper">
+
+    <select id="findByUserId" parameterType="java.lang.Integer" resultType="com.ibothub.love.template.model.entity.Dept">
+        select ad.* from auth_dept ad
+        left join auth_dept_user adu on ad.id=adu.dept_id
+        left join auth_user au on au.id=adu.user_id
+        where au.id=#{userId}
+    </select>
+
+</mapper>

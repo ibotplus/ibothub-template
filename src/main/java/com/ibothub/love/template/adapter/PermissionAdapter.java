@@ -66,4 +66,8 @@ public class PermissionAdapter {
                 .collect(Collectors.toList());
         parent.setChildren(children);
     }
+
+    public List<PermissionResp> queryList(PermissionReq permReq) {
+        return beanConverter.backward(permissionService.list());
+    }
 }

@@ -50,5 +50,10 @@ public class UserResp extends BaseVO {
     @ApiModelProperty("身份证")
     private String idCard;
 
+    @ApiModelProperty("备注")
+    private String remark;
+
     private List<RoleResp> roleList;
+
+    private List<DeptResp> deptList;
 }

@@ -70,6 +70,12 @@ public class PermissionController {
         return ResponseEntity.ok(permissionAdapter.queryByPage(pageInfoRequest));
     }
 
+    @ApiOperation(value = "查询权限", notes = "返回查询结果")
+    @PostMapping("/queryList")
+    public ResponseEntity<List<PermissionResp>> queryList(@ApiParam(value = "Request", type = "Request")
+                                                    @RequestBody PermissionReq permReq) {
+        return ResponseEntity.ok(permissionAdapter.queryList(permReq));
+    }
 
     @ApiOperation(value = "返回当前用户的权限路径")
     @PostMapping("/routes")

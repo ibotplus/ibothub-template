@@ -4,10 +4,10 @@ package com.ibothub.love.template.web.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ibothub.love.template.adapter.UserAdapter;
 import com.ibothub.love.template.model.vo.ResponseEntity;
+import com.ibothub.love.template.model.vo.req.UserCondition;
 import com.ibothub.love.template.model.vo.req.UserReq;
 import com.ibothub.love.template.model.vo.resp.UserResp;
 import com.ibothub.love.template.util.AppContext;
-import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * <p>
@@ -74,7 +75,7 @@ public class UserController {
     @ApiOperation(value = "分页", notes = "返回查询结果")
     @PostMapping("/queryByPage")
     public ResponseEntity<IPage<UserResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
-                                             @Valid @RequestBody PageInfoRequest pageInfoRequest) {
+                                             @Valid @RequestBody UserCondition pageInfoRequest) {
         return ResponseEntity.ok(userAdapter.queryByPage(pageInfoRequest));
     }
 
@@ -82,6 +83,14 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<UserResp> currentUser() {
         return ResponseEntity.ok(userAdapter.getByUsername(AppContext.ofUid()));
+    }
+
+    @Deprecated
+    @ApiOperation(value = "根据条件查询用户", notes = "返回查询结果")
+    @PostMapping("/queryList")
+    public ResponseEntity<List<UserResp>> queryList(@ApiParam(value = "Page Request", type = "PageRequest")
+                                                        @RequestBody UserReq userReq) {
+        return ResponseEntity.ok(userAdapter.queryList(userReq));
     }
 
 }

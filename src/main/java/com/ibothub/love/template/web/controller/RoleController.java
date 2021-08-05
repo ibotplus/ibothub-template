@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
@@ -42,7 +43,7 @@ public class RoleController {
 
     @ApiOperation(value = "修改角色")
     @PutMapping("")
-    public ResponseEntity update(@ApiParam(value = "UserReq Create RequestBody", type = "DatasourceVO")
+    public ResponseEntity update(@ApiParam(value = "RoleReq Create RequestBody", type = "DatasourceVO")
                                  @Validated(RoleReq.Update.class)
                                  @RequestBody RoleReq vo) {
         roleAdapter.saveOrUpdate(vo);
@@ -67,5 +68,12 @@ public class RoleController {
     public ResponseEntity<IPage<RoleResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
                                                        @Valid @RequestBody PageInfoRequest pageInfoRequest) {
         return ResponseEntity.ok(roleAdapter.queryByPage(pageInfoRequest));
+    }
+
+    @ApiOperation(value = "列表", notes = "返回查询结果")
+    @PostMapping("/queryList")
+    public ResponseEntity<List<RoleResp>> queryList(@ApiParam(value = "Request", type = "query list")
+                                                       @Valid @RequestBody RoleReq vo) {
+        return ResponseEntity.ok(roleAdapter.queryList(vo));
     }
 }

@@ -1,9 +1,6 @@
 package com.ibothub.love.template.model.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -36,11 +33,12 @@ public class BaseEntity implements Serializable {
     @TableId(type= IdType.AUTO)
     protected Integer id;
 
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
     @ApiModelProperty("创建时间")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
 
     @ApiModelProperty("修改时间")
+    @TableField(value = "modify_time", fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime modifyTime;
 
     @ApiModelProperty("创建人")

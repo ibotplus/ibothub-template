@@ -21,4 +21,6 @@ public interface RoleService extends IService<Role> {
     List<Role> findByUsername(String username);
 
     List<GrantedAuthority> getGrantedAuthorities(String username);
+
+    List<Role> findByUserId(Integer userId);
 }

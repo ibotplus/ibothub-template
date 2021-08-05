@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
@@ -31,6 +32,10 @@ public class RoleResp extends BaseVO {
 
     @ApiModelProperty("备注")
     private String remark;
+
+    private List<UserResp> userList;
+
+    private List<PermissionResp> permList;
 
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
  * @author <a href="mailto:eko.z@outlook.com">eko.zhan</a>
  * @version v1.0
- * @date 2021/7/15 17:34
+ * @date 2021/8/5 18:56
  */
 @Data
 @Accessors(chain = true)
@@ -19,15 +18,14 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@TableName(value = "auth_dept_user")
-public class DeptUser {
+@TableName(value = "auth_role_permission")
+public class RolePerm {
 
     @TableId(type= IdType.AUTO)
     private Integer id;
 
-    private Integer deptId;
+    private Integer roleId;
 
-    private Integer userId;
-
-
+    @TableField(value = "permission_id")
+    private Integer permId;
 }
