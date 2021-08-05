@@ -1,13 +1,19 @@
 package com.ibothub.love.template.adapter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.ibothub.love.template.model.BeanConverter;
+import com.ibothub.love.template.model.dto.RolePermDTO;
 import com.ibothub.love.template.model.dto.UserRoleDTO;
 import com.ibothub.love.template.model.entity.Role;
+import com.ibothub.love.template.model.entity.RolePerm;
 import com.ibothub.love.template.model.vo.req.RoleReq;
 import com.ibothub.love.template.model.vo.resp.RoleResp;
+import com.ibothub.love.template.service.PermissionService;
+import com.ibothub.love.template.service.RolePermService;
 import com.ibothub.love.template.service.RoleService;
 import com.ibothub.love.template.service.UserService;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
@@ -15,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -37,8 +44,30 @@ public class RoleAdapter {
     @Resource
     UserService userService;
 
+    @Resource
+    PermissionService permissionService;
+
+    @Resource
+    RolePermService rolePermService;
+
     public void saveOrUpdate(RoleReq vo) {
-        roleService.saveOrUpdate(beanConverter.forward(vo));
+        Role role = beanConverter.forward(vo);
+        roleService.saveOrUpdate(role);
+
+        if (vo.getPermIdList()!=null && vo.getPermIdList().length>0){
+
+            rolePermService.remove(Wrappers.<RolePerm>lambdaQuery().eq(RolePerm::getRoleId, role.getId()));
+
+            List<RolePerm> rolePermList = Lists.newArrayList();
+            Arrays.stream(vo.getPermIdList())
+                    .forEach(permId -> {
+                        rolePermList.add(RolePerm.builder()
+                                .roleId(role.getId())
+                                .permId(Integer.valueOf(permId))
+                                .build());
+                    });
+            rolePermService.saveBatch(rolePermList);
+        }
     }
 
     public RoleResp getById(Integer id) {
@@ -62,6 +91,10 @@ public class RoleAdapter {
                 .stream()
                 .collect(Collectors.groupingBy(UserRoleDTO::getRoleId));
 
+        Map<Integer, List<RolePermDTO>> permMap = permissionService.selectByRoleIds(roleIdList)
+                .stream()
+                .collect(Collectors.groupingBy(RolePermDTO::getRoleId));
+
 
         IPage<RoleResp> roleRespPage = pageResult.convert(beanConverter::backward);
 
@@ -72,6 +105,11 @@ public class RoleAdapter {
                     List<UserRoleDTO> userRoleList = userMap.get(Integer.valueOf(role.getId()));
                     if (userRoleList!=null){
                         role.setUserList(beanConverter.backwardUserDTO(userRoleList));
+                    }
+
+                    List<RolePermDTO> rolePermList = permMap.get(Integer.valueOf(role.getId()));
+                    if (rolePermList!=null){
+                        role.setPermList(beanConverter.backwardPermDTO(rolePermList));
                     }
                 });
 

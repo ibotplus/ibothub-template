@@ -1,7 +1,9 @@
 package com.ibothub.love.template.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ibothub.love.template.model.dto.RolePermDTO;
 import com.ibothub.love.template.model.entity.Permission;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,4 +15,6 @@ import java.util.List;
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     List<Permission> findByUsername(String username);
+
+    List<RolePermDTO> selectByRoleIds(@Param(("roleIdList")) List<Integer> roleIdList);
 }

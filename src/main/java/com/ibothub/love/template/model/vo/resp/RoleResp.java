@@ -35,6 +35,8 @@ public class RoleResp extends BaseVO {
 
     private List<UserResp> userList;
 
+    private List<PermissionResp> permList;
+
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime createTime;

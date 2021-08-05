@@ -1,5 +1,6 @@
 package com.ibothub.love.template.model;
 
+import com.ibothub.love.template.model.dto.RolePermDTO;
 import com.ibothub.love.template.model.dto.UserRoleDTO;
 import com.ibothub.love.template.model.entity.*;
 import com.ibothub.love.template.model.vo.BaseVO;
@@ -55,6 +56,7 @@ public interface BeanConverter {
     UserResp backward(UserRoleDTO dto);
 
     List<UserResp> backwardUserDTO(List<UserRoleDTO> dto);
+    List<PermissionResp> backwardPermDTO(List<RolePermDTO> rolePermList);
 
 
     Role forward(RoleReq vo);
@@ -106,5 +108,4 @@ public interface BeanConverter {
         if (entityList==null || entityList.size()==0) return null;
         return entityList.stream().map(t -> (V) this.backward(t)).collect(Collectors.toList());
     }
-
 }

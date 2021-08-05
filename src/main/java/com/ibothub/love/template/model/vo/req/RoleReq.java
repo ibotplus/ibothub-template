@@ -29,4 +29,7 @@ public class RoleReq extends BaseVO {
 
     @ApiModelProperty("备注")
     private String remark;
+
+    @ApiModelProperty("权限id")
+    private String[] permIdList;
 }

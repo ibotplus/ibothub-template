@@ -14,5 +14,16 @@
         order by ap.order_
     </select>
 
-
+    <select id="selectByRoleIds" resultType="com.ibothub.love.template.model.dto.RolePermDTO">
+        select arp.role_id, ap.* from auth_permission ap
+        inner join auth_role_permission arp on ap.id=arp.permission_id
+        where 1=1
+        <if test="roleIdList!=null and roleIdList.size>0">
+            and arp.role_id in
+            <foreach collection="roleIdList" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        order by arp.role_id
+    </select>
 </mapper>

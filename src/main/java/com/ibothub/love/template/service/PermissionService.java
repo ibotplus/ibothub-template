@@ -1,8 +1,10 @@
 package com.ibothub.love.template.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ibothub.love.template.model.dto.RolePermDTO;
 import com.ibothub.love.template.model.entity.Permission;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,4 +15,6 @@ import java.util.List;
 public interface PermissionService extends IService<Permission> {
 
     List<Permission> findByUsername(String ofUid);
+
+    List<RolePermDTO> selectByRoleIds(List<Integer> roleIdList);
 }
