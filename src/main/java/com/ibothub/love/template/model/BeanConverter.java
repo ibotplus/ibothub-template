@@ -4,14 +4,8 @@ import com.ibothub.love.template.model.dto.RolePermDTO;
 import com.ibothub.love.template.model.dto.UserRoleDTO;
 import com.ibothub.love.template.model.entity.*;
 import com.ibothub.love.template.model.vo.BaseVO;
-import com.ibothub.love.template.model.vo.req.DeptReq;
-import com.ibothub.love.template.model.vo.req.PermissionReq;
-import com.ibothub.love.template.model.vo.req.RoleReq;
-import com.ibothub.love.template.model.vo.req.UserReq;
-import com.ibothub.love.template.model.vo.resp.DeptResp;
-import com.ibothub.love.template.model.vo.resp.PermissionResp;
-import com.ibothub.love.template.model.vo.resp.RoleResp;
-import com.ibothub.love.template.model.vo.resp.UserResp;
+import com.ibothub.love.template.model.vo.req.*;
+import com.ibothub.love.template.model.vo.resp.*;
 import lombok.SneakyThrows;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -70,6 +64,8 @@ public interface BeanConverter {
     PermissionResp backward(Permission entity);
 
 
+    Conf forward(ConfReq vo);
+    ConfResp backward(Conf entity);
 
     @SneakyThrows
     default <V extends BaseVO, T extends BaseEntity> V backward(T t) {

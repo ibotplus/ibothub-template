@@ -19,7 +19,9 @@ CREATE TABLE `ibothub-auth`.`auth_user` (
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	modifier varchar(100) NULL COMMENT '修改人',
-	del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+	del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除',
+	KEY `idx_user_username` (`username`) USING BTREE,
+	KEY `idx_user_job_number` (`job_number`) USING BTREE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -38,7 +40,8 @@ CREATE TABLE `ibothub-auth`.`auth_dept` (
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	modifier varchar(100) NULL COMMENT '修改人',
-  del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+  del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除',
+  KEY `idx_dept_parent_id` (`parent_id`) USING BTREE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -48,7 +51,8 @@ drop table if exists `auth_dept_user`;
 CREATE TABLE `ibothub-auth`.`auth_dept_user` (
 	id BIGINT auto_increment NOT NULL primary key,
 	user_id BIGINT NULL COMMENT '用户id',
-	dept_id BIGINT NULL COMMENT '部门id'
+	dept_id BIGINT NULL COMMENT '部门id',
+	KEY `idx_deptuser_id` (`user_id`, `dept_id`) USING BTREE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -64,7 +68,7 @@ CREATE TABLE `ibothub-auth`.`auth_role` (
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	modifier varchar(100) NULL COMMENT '修改人',
-    del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+  del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -74,7 +78,8 @@ drop table if exists `auth_user_role`;
 CREATE TABLE `ibothub-auth`.`auth_user_role` (
 	id BIGINT auto_increment NOT NULL primary key,
 	user_id BIGINT NULL COMMENT '用户id',
-	role_id BIGINT NULL COMMENT '角色id'
+	role_id BIGINT NULL COMMENT '角色id',
+	KEY `idx_userrole_id` (`user_id`, `role_id`) USING BTREE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -100,7 +105,8 @@ CREATE TABLE `ibothub-auth`.`auth_permission` (
 	creator varchar(100) NULL COMMENT '创建人',
 	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
 	modifier varchar(100) NULL COMMENT '修改人',
-    del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+  del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除',
+  KEY `idx_perm_parent_id` (`parent_id`) USING BTREE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -110,7 +116,37 @@ drop table if exists `auth_role_permission`;
 CREATE TABLE `ibothub-auth`.`auth_role_permission` (
 	id BIGINT auto_increment NOT NULL primary key,
 	role_id BIGINT NULL COMMENT '角色id',
-	permission_id BIGINT NULL COMMENT '权限id'
+	permission_id BIGINT NULL COMMENT '权限id',
+	KEY `idx_roleperm_id` (`role_id`, `permission_id`) USING BTREE
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+drop table if exists `sys_conf`;
+CREATE TABLE `ibothub-auth`.`sys_conf` (
+	id BIGINT auto_increment NOT NULL primary key,
+	code varchar(200) NULL COMMENT 'Code',
+	value varchar(2000) NULL COMMENT '值',
+	default_value varchar(2000) NULL COMMENT '默认值',
+	name varchar(1000) NULL COMMENT '名称',
+	type_ int NULL COMMENT '类型：0-字符串（默认）；1-数字；2-日期；9-图片',
+	remark varchar(1000) NULL COMMENT '备注',
+	create_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
+	creator varchar(100) NULL COMMENT '创建人',
+	modify_time DATETIME DEFAULT CURRENT_TIMESTAMP() NOT NULL COMMENT '创建日期',
+	modifier varchar(100) NULL COMMENT '修改人',
+  del_flag INT DEFAULT 0 NOT NULL COMMENT '删除标识，1-已删除；0-未删除'
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+drop table if exists `sys_conf_extra`;
+CREATE TABLE `ibothub-auth`.`sys_conf_extra` (
+	id BIGINT auto_increment NOT NULL primary key,
+	conf_id BIGINT NULL COMMENT 'conf id',
+	content blob NULL COMMENT '内容'
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -132,7 +168,6 @@ REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `s
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('huangzhong', '黄忠', 'e10adc3949ba59abbe56e057f20f883e', '9538', 1, 'huangzhong@ibothub.com', '13952489654', '1992-10-01 00:00:00', '422181198210015698');
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('lvbu', '吕布', 'e10adc3949ba59abbe56e057f20f883e', '9539', 1, 'lvbu@ibothub.com', '15214526985', '1992-10-01 00:00:00', '350800197804195567');
 REPLACE INTO `auth_user`(`username`, `username_cn`, `password`, `job_number`, `sex`, `email`, `phone`, `birthday`, `id_card`) VALUES ('diaochan', '貂蝉', 'e10adc3949ba59abbe56e057f20f883e', '9540', 0, 'diaochan@ibothub.com', '18852639452', '1992-10-01 00:00:00', '654200196211102422');
-
 
 REPLACE INTO `auth_role`(`id`, `name`, `key_`) VALUES (99999, '系统管理员', 'ROLE_ADMIN');
 REPLACE INTO `auth_role`(`id`, `name`, `key_`) VALUES (88888, '管理员', 'ROLE_MAINTAINER');
@@ -162,5 +197,13 @@ REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 12);
 REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 13);
 REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 14);
 REPLACE INTO `auth_role_permission`(role_id, permission_id) VALUES (99999, 15);
+
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (1, 'title', '正欣会计', '正欣会计', '系统标题', NULL, 0);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (2, 'loginTitle', '正欣会计', '正欣会计', '登录页标题', NULL, 0);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (3, 'loginLogo', NULL, NULL, '登录页 Logo', NULL, 9);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (4, 'bannerTitle', '正欣会计', '正欣会计', 'Banner标题', NULL, 0);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (5, 'bannerLogo', NULL, NULL, 'Banner Logo', NULL, 9);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (6, 'favTitle', '正欣会计', '正欣会计', '地址栏标题', NULL, 0);
+REPLACE INTO `sys_conf`(`id`, `code`, `value`, `default_value`, `name`, `remark`, `type_`) VALUES (7, 'favIcon', NULL, NULL, '地址栏Icon', NULL, 9);
 
 COMMIT;
