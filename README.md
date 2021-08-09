@@ -1,4 +1,4 @@
-> 基于springBoot的template项目 (JPA)
+> 基于springBoot的template项目
 
 
 
@@ -97,7 +97,7 @@ jwt.jks 生成步骤
 | **0106** | token快到期,续签token(前端在请求结果中全局处理,如果得到该响应码,替换cookie中的原有token) |
 | **0107** | token非法(已过期,不正确等)                                   |
 
-### 4. JPA
+### 4. MyBatis-plus
 
 > 简单CRUD sample
 
@@ -105,4 +105,7 @@ jwt.jks 生成步骤
 > **使用default方法(推荐)**
 
 ### 相关资料
+
 [关于spring-security的spring EL的表达式](https://blog.csdn.net/oschina_41544814/article/details/84585913)
+
+[前端工程 ibothub-ui](https://github.com/ibotplus/ibothub-ui)
