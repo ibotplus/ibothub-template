@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -73,12 +74,22 @@ public interface BeanConverter {
         Method method = CACHED_METHOD.get(key);
         if (method == null) {
             synchronized (CACHED_METHOD) {
-                method = this.getClass().getDeclaredMethod("backward", t.getClass());
+                try {
+                    method = this.getClass().getDeclaredMethod("backward", t.getClass());
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
                 CACHED_METHOD.put(key, method);
             }
         }
 
-        return (V) method.invoke(this, t);
+        try {
+            return (V) method.invoke(this, t);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SneakyThrows
@@ -87,12 +98,22 @@ public interface BeanConverter {
         Method method = CACHED_METHOD.get(key);
         if (method == null) {
             synchronized (CACHED_METHOD) {
-                method = this.getClass().getDeclaredMethod("forward", v.getClass());
+                try {
+                    method = this.getClass().getDeclaredMethod("forward", v.getClass());
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeException(e);
+                }
                 CACHED_METHOD.put(key, method);
             }
         }
 
-        return (T) method.invoke(this, v);
+        try {
+            return (T) method.invoke(this, v);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     default <V extends BaseVO, T extends BaseEntity> List<T> forward(List<V> voList) {
