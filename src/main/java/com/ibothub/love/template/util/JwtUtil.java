@@ -54,14 +54,15 @@ public class JwtUtil {
         );
 
         String jwt = Jwts.builder()
-                .setIssuer(jwtConfig.getIssuer())
-                .setSubject(userId)
-                .setAudience(userId)
-                .setExpiration(expireDate)
-                .setNotBefore(nowDate)
-                .setIssuedAt(nowDate)
-                .setId(userId)
-                .signWith(SignatureAlgorithm.RS256, privateKey)
+                .issuer(jwtConfig.getIssuer())
+                .subject(userId)
+                .audience().add(userId)
+                .and()
+                .expiration(expireDate)
+                .notBefore(nowDate)
+                .issuedAt(nowDate)
+                .id(userId)
+                .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
         // jwt前面一般都会加Bearer
         return jwtConfig.getTokenHead() + jwt;
@@ -70,8 +71,8 @@ public class JwtUtil {
     /**
      * 旧jwt到期续签
      */
-    public static Optional<String> renewJwt(String OldJwt) {
-        Claims claims = ofClaims(OldJwt);
+    public static Optional<String> renewJwt(String oldJwt) {
+        Claims claims = ofClaims(oldJwt);
 
         ZoneId zoneId = ZoneId.systemDefault();
         LocalDateTime now = LocalDateTime.now();
@@ -89,9 +90,10 @@ public class JwtUtil {
      */
     public static Claims ofClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(publicKey)
-                .parseClaimsJws(token.substring(jwtConfig.getTokenHead().length()))
-                .getBody();
+                .verifyWith(publicKey)
+                .build()
+                .parseSignedClaims(token.substring(jwtConfig.getTokenHead().length()))
+                .getPayload();
     }
 
 

@@ -70,7 +70,7 @@ src.
 jwt.jks 生成步骤
 ```
 # 生成 jks 文件
-./keytool -genkey -alias jwt -keyalg RSA -keysize 1024 -keystore ibothub-jwt.jks -validity 36500 -keypass ibothub -storepass ibothub
+./keytool -genkey -alias jwt -keyalg RSA -keysize 2048 -keystore ibothub-jwt.jks -validity 36500 -keypass ibothub -storepass ibothub
 
 # 验证 jkd 文件
 ./keytool -list -rfc --keystore ./ibothub-jwt.jks
