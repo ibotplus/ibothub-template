@@ -3,8 +3,8 @@ package com.ibothub.love.template.model.vo;
 import com.alibaba.fastjson.JSON;
 import com.ibothub.love.template.exception.ResultCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,31 +27,31 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "响应数据")
+@Schema(description = "响应数据")
 public class ResponseEntity<T> implements Serializable {
 
     /**
      * response result code, not http response code
      */
-    @ApiModelProperty("响应码")
+    @Schema(description = "响应码")
     private String code = "";
 
     /**
      * response result code meaning
      */
-    @ApiModelProperty("响应码含义")
+    @Schema(description = "响应码含义")
     private String message = "";
 
     /**
      * response result explanation, usually used to describe exception detail
      */
-    @ApiModelProperty("响应码解释，通常用于描述异常细节")
+    @Schema(description = "响应码解释，通常用于描述异常细节")
     private String description = "";
 
     /**
      * response result data
      */
-    @ApiModelProperty("响应主体")
+    @Schema(description = "响应主体")
     private T data;
 
     /**

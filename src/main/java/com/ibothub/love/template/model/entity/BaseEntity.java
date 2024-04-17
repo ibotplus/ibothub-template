@@ -1,8 +1,7 @@
 package com.ibothub.love.template.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,31 +25,31 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel("base entity")
+@Schema(description = "base entity")
 @Slf4j
 public class BaseEntity implements Serializable {
 
     @TableId(type= IdType.AUTO)
     protected Integer id;
 
-    @ApiModelProperty("创建时间")
+    @Schema(description = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     protected LocalDateTime createTime;
 
-    @ApiModelProperty("修改时间")
+    @Schema(description = "修改时间")
     @TableField(value = "modify_time", fill = FieldFill.INSERT_UPDATE)
     protected LocalDateTime modifyTime;
 
-    @ApiModelProperty("创建人")
+    @Schema(description = "创建人")
     protected String creator;
 
-    @ApiModelProperty("修改人")
+    @Schema(description = "修改人")
     protected String modifier;
 
     /**
      * Logic to delete is 1, else is 0
      */
-    @ApiModelProperty("逻辑删除标志")
+    @Schema(description = "逻辑删除标志")
     protected Integer delFlag;
 
     @Override

@@ -9,7 +9,7 @@ import com.ibothub.love.template.model.vo.resp.ConfResp;
 import com.ibothub.love.template.service.ConfService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -2,7 +2,6 @@ package com.ibothub.love.template.adapter;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
 import com.ibothub.love.template.model.BeanConverter;
 import com.ibothub.love.template.model.entity.Permission;
 import com.ibothub.love.template.model.vo.BaseVO;
@@ -12,7 +11,7 @@ import com.ibothub.love.template.service.PermissionService;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 

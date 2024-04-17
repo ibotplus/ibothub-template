@@ -1,13 +1,13 @@
 package com.ibothub.love.template.model.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,11 +19,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @Validated
-@ApiModel
+@Schema
 public class BaseVO implements Serializable {
 
     @NotEmpty(groups = Update.class)
-    @ApiModelProperty("ID")
+    @Schema(description = "ID")
     private String id;
 
     public interface Create {

@@ -7,7 +7,7 @@ import com.ibothub.love.template.model.entity.Permission;
 import com.ibothub.love.template.service.PermissionService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

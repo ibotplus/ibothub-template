@@ -2,7 +2,8 @@ package com.ibothub.love.template.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "Role对象")
+@Schema(description = "Role对象")
 @TableName(value = "auth_role")
 public class Role extends BaseEntity {
 

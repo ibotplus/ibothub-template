@@ -3,7 +3,7 @@ package com.ibothub.love.template.auth;
 import com.ibothub.love.template.model.vo.ResponseEntity;
 import org.springframework.http.MediaType;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**

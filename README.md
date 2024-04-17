@@ -5,9 +5,9 @@
 >
 [![Build Status](https://github.com/ibotplus/ibothub-template/actions/workflows/maven.yml/badge.svg)](https://github.com/ibotplus/ibothub-template/actions)
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
-![SpringBoot](https://img.shields.io/badge/SpringBoot-2.3.12.RELEASE-green.svg)
-![Java](https://img.shields.io/badge/Java-v1.8.0__162-blue.svg)
-![Maven](https://img.shields.io/badge/Maven-v3.8.1-blue.svg)
+![SpringBoot](https://img.shields.io/badge/SpringBoot-3.2.2-green.svg)
+![Java](https://img.shields.io/badge/Java-21-blue.svg)
+![Maven](https://img.shields.io/badge/Maven-3.9.6-blue.svg)
 
 
 ### 1. 初始化项目

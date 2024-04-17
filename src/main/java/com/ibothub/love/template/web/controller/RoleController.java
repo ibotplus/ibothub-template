@@ -6,15 +6,16 @@ import com.ibothub.love.template.model.vo.ResponseEntity;
 import com.ibothub.love.template.model.vo.req.RoleReq;
 import com.ibothub.love.template.model.vo.resp.RoleResp;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ import java.util.List;
  * @date 2021/7/14 16:17
  */
 
-@Api(tags = "角色管理")
+@Tag(name = "角色管理")
 @Validated
 @RestController
 @RequestMapping("/api/auth/role")
@@ -32,47 +33,47 @@ public class RoleController {
     @Resource
     RoleAdapter roleAdapter;
 
-    @ApiOperation(value = "创建角色", notes = "返回表示创建成功")
+    @Operation(summary = "创建角色", description = "返回表示创建成功")
     @PostMapping("")
-    public ResponseEntity create(@ApiParam(value = "UserReq Create RequestBody")
+    public ResponseEntity create(@Schema(description = "UserReq Create RequestBody")
                                  @Validated(RoleReq.Create.class)
                                  @RequestBody RoleReq vo) {
         roleAdapter.saveOrUpdate(vo);
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "修改角色")
+    @Operation(summary = "修改角色")
     @PutMapping("")
-    public ResponseEntity update(@ApiParam(value = "RoleReq Create RequestBody", type = "DatasourceVO")
+    public ResponseEntity update(@Schema(description = "RoleReq Create RequestBody", type = "DatasourceVO")
                                  @Validated(RoleReq.Update.class)
                                  @RequestBody RoleReq vo) {
         roleAdapter.saveOrUpdate(vo);
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "根据id查询实体")
+    @Operation(summary = "根据id查询实体")
     @GetMapping("{id}")
     public ResponseEntity<RoleResp> getOne(@PathVariable String id) {
         return ResponseEntity.ok(roleAdapter.getById(Integer.valueOf(id)));
     }
 
-    @ApiOperation(value = "删除角色")
+    @Operation(summary = "删除角色")
     @DeleteMapping("{id}")
     public ResponseEntity delete(@NotEmpty @PathVariable String id) {
         roleAdapter.deleteById(Integer.valueOf(id));
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "分页", notes = "返回查询结果")
+    @Operation(summary = "分页", description = "返回查询结果")
     @PostMapping("/queryByPage")
-    public ResponseEntity<IPage<RoleResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
+    public ResponseEntity<IPage<RoleResp>> queryByPage(@Schema(description = "Page Request", type = "PageRequest")
                                                        @Valid @RequestBody PageInfoRequest pageInfoRequest) {
         return ResponseEntity.ok(roleAdapter.queryByPage(pageInfoRequest));
     }
 
-    @ApiOperation(value = "列表", notes = "返回查询结果")
+    @Operation(summary = "列表", description = "返回查询结果")
     @PostMapping("/queryList")
-    public ResponseEntity<List<RoleResp>> queryList(@ApiParam(value = "Request", type = "query list")
+    public ResponseEntity<List<RoleResp>> queryList(@Schema(description = "Request", type = "query list")
                                                        @Valid @RequestBody RoleReq vo) {
         return ResponseEntity.ok(roleAdapter.queryList(vo));
     }

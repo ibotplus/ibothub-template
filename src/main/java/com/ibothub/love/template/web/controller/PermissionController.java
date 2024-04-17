@@ -7,15 +7,16 @@ import com.ibothub.love.template.model.vo.req.PermissionReq;
 import com.ibothub.love.template.model.vo.resp.PermissionResp;
 import com.ibothub.love.template.util.AppContext;
 import com.ibothub.love.template.util.pageable.PageInfoRequest;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ import java.util.List;
  * @version v1.0
  * @date 2021/7/16 10:21
  */
-@Api(tags = "权限管理")
+@Tag(name = "权限管理")
 @Validated
 @RestController
 @RequestMapping("/api/auth/perm")
@@ -32,52 +33,52 @@ public class PermissionController {
     @Resource
     PermissionAdapter permissionAdapter;
 
-    @ApiOperation(value = "创建权限", notes = "返回表示创建成功")
+    @Operation(summary = "创建权限", description = "返回表示创建成功")
     @PostMapping("")
-    public ResponseEntity create(@ApiParam(value = "UserReq Create RequestBody")
+    public ResponseEntity create(@Schema(description = "UserReq Create RequestBody")
                                  @Validated(PermissionReq.Create.class)
                                  @RequestBody PermissionReq vo) {
         permissionAdapter.saveOrUpdate(vo);
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "修改权限")
+    @Operation(summary = "修改权限")
     @PutMapping("")
-    public ResponseEntity update(@ApiParam(value = "UserReq Create RequestBody", type = "DatasourceVO")
+    public ResponseEntity update(@Schema(description = "UserReq Create RequestBody", type = "DatasourceVO")
                                  @Validated(PermissionReq.Update.class)
                                  @RequestBody PermissionReq vo) {
         permissionAdapter.saveOrUpdate(vo);
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "根据id查询实体")
+    @Operation(summary = "根据id查询实体")
     @GetMapping("{id}")
     public ResponseEntity<PermissionResp> getOne(@PathVariable String id) {
         return ResponseEntity.ok(permissionAdapter.getById(Integer.valueOf(id)));
     }
 
-    @ApiOperation(value = "删除权限")
+    @Operation(summary = "删除权限")
     @DeleteMapping("{id}")
     public ResponseEntity delete(@NotEmpty @PathVariable String id) {
         permissionAdapter.deleteById(Integer.valueOf(id));
         return ResponseEntity.ok();
     }
 
-    @ApiOperation(value = "分页", notes = "返回查询结果")
+    @Operation(summary = "分页", description = "返回查询结果")
     @PostMapping("/queryByPage")
-    public ResponseEntity<IPage<PermissionResp>> queryByPage(@ApiParam(value = "Page Request", type = "PageRequest")
+    public ResponseEntity<IPage<PermissionResp>> queryByPage(@Schema(description = "Page Request", type = "PageRequest")
                                                        @Valid @RequestBody PageInfoRequest pageInfoRequest) {
         return ResponseEntity.ok(permissionAdapter.queryByPage(pageInfoRequest));
     }
 
-    @ApiOperation(value = "查询权限", notes = "返回查询结果")
+    @Operation(summary = "查询权限", description = "返回查询结果")
     @PostMapping("/queryList")
-    public ResponseEntity<List<PermissionResp>> queryList(@ApiParam(value = "Request", type = "Request")
+    public ResponseEntity<List<PermissionResp>> queryList(@Schema(description = "Request", type = "Request")
                                                     @RequestBody PermissionReq permReq) {
         return ResponseEntity.ok(permissionAdapter.queryList(permReq));
     }
 
-    @ApiOperation(value = "返回当前用户的权限路径")
+    @Operation(summary = "返回当前用户的权限路径")
     @PostMapping("/routes")
     public ResponseEntity<List<PermissionResp>> routes() {
         return ResponseEntity.ok(permissionAdapter.getByUsername(AppContext.ofUid()));

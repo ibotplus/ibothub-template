@@ -1,7 +1,7 @@
 package com.ibothub.love.template.util.pageable;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
@@ -13,34 +13,34 @@ import java.util.List;
  * <p/>
  */
 @Data
-@ApiModel
+@Schema
 public class PageInfo<T> implements Serializable {
 
-    @ApiModelProperty(value = "是否第一页", position = 1)
+    @Schema(description = "是否第一页")
     private boolean firstPage;
 
-    @ApiModelProperty(value = "是否最后页", position = 2)
+    @Schema(description = "是否最后页")
     private boolean lastPage;
 
-    @ApiModelProperty(value = "是否有前一页", position = 3)
+    @Schema(description = "是否有前一页")
     private boolean hasPreviousPage;
 
-    @ApiModelProperty(value = "是否有下一页", position = 4)
+    @Schema(description = "是否有下一页")
     private boolean hasNextPage;
 
-    @ApiModelProperty(value = "总页数", position = 5)
+    @Schema(description = "总页数")
     private int pages;
 
-    @ApiModelProperty(value = "总记录数", position = 6)
+    @Schema(description = "总记录数")
     private long total;
 
-    @ApiModelProperty(value = "当前页码", position = 7)
+    @Schema(description = "当前页码")
     private int pageNum;
 
-    @ApiModelProperty(value = "当前页大小", position = 8)
+    @Schema(description = "当前页大小")
     private int pageSize;
 
-    @ApiModelProperty(value = "分页结果集", position = 10)
+    @Schema(description = "分页结果集")
     private List<T> list;
 
     public PageInfo(){}

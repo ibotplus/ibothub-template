@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,7 +29,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
@@ -60,44 +62,52 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
+    /**
+     * 设置静态资源不被拦截
+     */
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**",
                 "/actuator/**", "/ws/**", "/DATAS/**", "/api/sys/conf/permitList");
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
+    /**
+     * 设置拦截规则，设置默认登录页面以及登录成功后的跳转页面
+     */
+    @Bean
+    SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http
+                .cors(corsCustomizer -> corsCustomizer.configurationSource(corsConfigurationSource()))
                 // csrf
-                .csrf().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(new KbsAuthenticationEntryPoint())
-                    .accessDeniedHandler(new KbsAccessDeniedHandler())
-                .and()
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
+                        .authenticationEntryPoint(new KbsAuthenticationEntryPoint())
+                        .accessDeniedHandler(new KbsAccessDeniedHandler())
+                )
                 // X-Frame-Options default is deny
-                .headers().frameOptions().sameOrigin()
-                .and()
+                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .userDetailsService(kbsUserDetailsService)
-                .anonymous().disable()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .anonymous(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/login").permitAll()
+                        .anyRequest().authenticated()
+                )
                 // 登录配置
-                .formLogin()
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenticationFailureHandler)
-                .and()
+                .formLogin(formLoginCustomizer -> formLoginCustomizer
+                        .successHandler(authenticationSuccessHandler)
+                        .failureHandler(authenticationFailureHandler)
+                )
                 // 登出配置
-                .logout()
-                .logoutSuccessHandler(logoutSuccessHandler)
+                .logout(logoutCustomizer -> logoutCustomizer
+                        .logoutSuccessHandler(logoutSuccessHandler)
+                        .permitAll()
+                )
                 // .deleteCookies(jwtConfig.getAuthHeader())
-                .permitAll().and()
                 .addFilterBefore(kbsJwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 // jwt不需要session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement(sessionManagementCustomizer -> sessionManagementCustomizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
     }
 
     @Bean

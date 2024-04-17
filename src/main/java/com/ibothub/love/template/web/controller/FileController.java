@@ -2,10 +2,11 @@ package com.ibothub.love.template.web.controller;
 
 import com.ibothub.love.template.model.vo.ResponseEntity;
 import com.ibothub.love.template.util.FileUploadUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,14 +19,14 @@ import java.io.IOException;
 
 
 @Slf4j
-@Api(tags = "文件上传")
+@Tag(name = "文件上传")
 @RestController
 @RequestMapping("/file")
 public class FileController {
 
-    @ApiOperation("上传文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "文件", dataType = "__file", required = true, paramType = "form")
+    @Operation(summary = "上传文件")
+    @Parameters({
+            @Parameter(name = "file", description = "文件", schema = @Schema(type = "file"))
     })
     @PostMapping(
             value = "/",
@@ -37,9 +38,9 @@ public class FileController {
         return ResponseEntity.ok(voice);
     }
 
-    @ApiOperation("删除文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "filePath", value = "文件路径", required = true)
+    @Operation(summary = "删除文件")
+    @Parameters({
+            @Parameter(name = "filePath", description = "文件路径", required = true)
     })
     @DeleteMapping("/")
     public ResponseEntity delete(String filePath) {

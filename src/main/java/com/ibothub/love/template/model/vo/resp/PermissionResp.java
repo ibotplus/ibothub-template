@@ -1,7 +1,8 @@
 package com.ibothub.love.template.model.vo.resp;
 
 import com.ibothub.love.template.model.vo.BaseVO;
-import io.swagger.annotations.ApiModel;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -13,7 +14,7 @@ import java.util.List;
  * @version v1.0
  * @date 2021/7/16 10:16
  */
-@ApiModel
+@Schema
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)

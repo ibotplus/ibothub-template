@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "922584a5-e51b-40b5-ba80-58d1b5963be3",
+		"name": "ibothub-template",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6387660",
+		"_collection_link": "https://rainbow-wuhan.postman.co/workspace/ibothub~ad1955b0-59f8-4f3f-9a11-ae5d70db5060/collection/6387660-922584a5-e51b-40b5-ba80-58d1b5963be3?action=share&source=collection_link&creator=6387660"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "21232f297a57a5a743894a0e4a801fc3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth-zhangsan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "zhangsan",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "e10adc3949ba59abbe56e057f20f883e",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
