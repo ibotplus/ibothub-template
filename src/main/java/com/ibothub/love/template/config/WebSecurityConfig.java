@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,9 +26,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+/**
+ * @author eko.zhan
+ */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired
@@ -77,7 +80,7 @@ public class WebSecurityConfig {
     @Bean
     SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
-                .cors(corsCustomizer -> corsCustomizer.configurationSource(corsConfigurationSource()))
+                .cors(Customizer.withDefaults())
                 // csrf
                 .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exceptionHandlingCustomizer -> exceptionHandlingCustomizer
@@ -85,7 +88,7 @@ public class WebSecurityConfig {
                         .accessDeniedHandler(new KbsAccessDeniedHandler())
                 )
                 // X-Frame-Options default is deny
-                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+//                .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .userDetailsService(kbsUserDetailsService)
                 .anonymous(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
@@ -111,17 +114,16 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         // 允许跨域访问的域名
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         // 请求头
         corsConfiguration.addAllowedHeader("*");
         // 请求方法
-        corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
-        corsConfiguration.addAllowedMethod(HttpMethod.POST);
         corsConfiguration.addAllowedMethod(HttpMethod.GET);
+        corsConfiguration.addAllowedMethod(HttpMethod.POST);
+        corsConfiguration.addAllowedMethod(HttpMethod.PATCH);
         corsConfiguration.addAllowedMethod(HttpMethod.PUT);
         corsConfiguration.addAllowedMethod(HttpMethod.DELETE);
         corsConfiguration.addAllowedMethod(HttpMethod.OPTIONS);
@@ -129,7 +131,10 @@ public class WebSecurityConfig {
         corsConfiguration.setMaxAge(3600L);
         // 是否支持安全证书
         corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
 }
