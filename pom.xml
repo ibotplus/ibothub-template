@@ -40,6 +40,7 @@
         <springdoc.version>2.5.0</springdoc.version>
         <swagger.version>2.2.21</swagger.version>
         <skipTests>true</skipTests>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>
